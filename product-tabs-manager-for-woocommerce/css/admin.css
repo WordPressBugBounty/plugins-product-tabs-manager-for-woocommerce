@@ -1,0 +1,322 @@
+.br_settings .nav-block{
+    display: none;
+}
+.br_settings .nav-block.nav-block-active{
+    display: block;
+}
+.br_settings textarea{
+    width: 100%;
+    resize: vertical;
+    min-height: 100px;
+}
+.br_saved,
+.br_not_saved{
+    position: fixed;
+    top: 50px;
+    right: 50px;
+    z-index: 9999999;
+    color: #333333;
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    animation-name: br_saved_anim;
+    animation-duration: 0.2s;
+    transition: background-color 0.6s;
+    transition: box-shadow 0.6s;
+}
+@keyframes br_saved_anim {
+    from {
+        right: -50px;
+    }
+
+    to {
+        right: 50px;
+    }
+}
+.br_saved_remove {
+    animation-name: br_saved_remove_anim;
+    animation-duration: 0.2s;
+}
+@keyframes br_saved_remove_anim {
+    from {
+        right: 50px;
+    }
+
+    to {
+        right: -50px;
+    }
+}
+.br_saved{
+    box-shadow: 1px 1px 3px 1px #55ff55 inset, 0 0 5px 0;
+    background-color: #33bb33;
+}
+.br_not_saved{
+    box-shadow: 1px 1px 3px 1px #ff5555 inset, 0 0 5px 0;
+    background-color: #bb3333!important;
+}
+.br_saving {
+    box-shadow: 1px 1px 3px 1px #cfcfcf inset, 0 0 5px 0;
+    background-color: #bbbbbb!important;
+}
+.br_saved .fa,
+.br_not_saved .fa{
+    width: 50px;
+    display: block;
+    line-height: 50px;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 32px;
+}
+.br_saved .fa-check,
+.br_not_saved .fa-times{
+    animation-name: br_saved_anim_fa;
+    animation-duration: 0.4s;
+}
+@keyframes br_saved_anim_fa {
+    0% {
+        font-size: 0px;
+    }
+
+    50% {
+        font-size: 0px;
+    }
+
+    100% {
+        font-size: 32px;
+    }
+}
+.br-tab_manager-sortable {
+    margin-top: 1em;
+}
+.br-tab_manager-sortable .br-tab_manager-element {
+    background: #fafafa;
+    border: 1px solid #e5e5e5;
+    margin-bottom: 0.2em;
+}
+.br-tab_manager-sortable .br-tab_manager-element .br-tab_manager-header {
+    position: relative;
+    font-size: 1.5em;
+    border: 1px solid #a5a5a5;
+}
+.br-tab_manager-header .br-show_next_hidden {
+    position: absolute;
+    display: block;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 2em;
+    line-height: 2em;
+    vertical-align: middle;
+    text-align: center;
+    cursor: pointer;
+}
+.br-tab_manager-header .br-remove_tab {
+    cursor: pointer!important;
+    position: absolute!important;
+    top: 0.3em!important;
+    right: 4em!important;
+}
+.br-tab_manager-header .br-show_next_hidden:hover {
+    background-color: #ccccff;
+}
+.br-tab_manager-sortable .br-tab_manager-element h3 {
+    padding: 0;
+    margin: 0;
+    font-size: 1em;
+    padding: 0.5em;
+    cursor: move;
+}
+.br_display_none {
+    display: none!important;
+}
+.br_hidden {
+    padding: 1em;
+}
+.br_tab_manager_tab_editor {
+    position: relative;
+}
+.br_tab_manager_tab_editor .br_tab_editor_blocker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    background: rgba(255,255,255,0.7);
+    opacity: 0.7;
+}
+.colorpicker_field_tabs {
+    width: 2em;
+    height: 2em;
+    border: 2px solid black;
+    margin: auto;
+    margin-bottom: 5px;
+}
+.br_search_box {
+    position: relative;
+}
+.br_products_search {
+    border: 1px solid #777;
+    background: #ffffff;
+    padding: 0.3em 0.3em 0 0.3em;
+    cursor: text;
+    margin: 0;
+    position: relative;
+    top: 1px;
+}
+.br_products_search * {
+    font-size: 1em;
+}
+.br_products_search li {
+    display: inline-block;
+    font-size: 1em;
+    line-height: 1em;
+    padding: 0;
+    margin: 0;
+    margin-right: 0.3em!important;
+    margin-bottom: 0.3em!important;
+}
+.br_products_search li .br_loads {
+    position: absolute;
+    right: 0.3em;
+    bottom: 0.3em;
+    font-size: 28px;
+}
+.br_products_search .br_search_input {
+    font-size: 1em;
+    line-height: 1em;
+    padding: 0.1em;
+    border: 0;
+    outline: 0;
+    min-width: 250px;
+    height: 28px;
+    box-shadow: none;
+}
+.br_products_search .br_search_input:focus {
+    outline: 0;
+    box-shadow: none;
+}
+.br_search_result {
+    border: 1px solid #999;
+    border-top: 0;
+    background: #f7f7f7;
+    margin: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    max-height: 200px;
+    overflow: auto;
+    padding: 0.3em;
+    z-index: 1000;
+}
+.br_search_result li {
+    cursor: pointer;
+    padding: 0.3em;
+}
+.br_search_result li:hover {
+    background: #efefef;
+}
+.tab_manager_submit_form table.tab-style-settings td,
+.tab_manager_submit_form table.tab-style-settings th {
+    text-align: center;
+    padding: 10px;
+}
+.br_framework_settings.br_tabs_settings .button.tiny-button {
+    margin-top: 5px!important;
+    margin-bottom: 5px!important;
+}
+.br_framework_settings .br_tab_manager_tab_editor .br-remove_tab {
+    margin: 0!important;
+    position: absolute!important;
+    top: 0.3em!important;
+    right: 4em!important;
+    background-color: #ababab!important;
+}
+.br_framework_settings .br_tab_manager_tab_editor h2 {
+    padding: 0 !important;
+}
+
+.br_framework_settings .br_tab_manager_tab_editor .br-add-tab-select {
+    margin-top: 5px;
+    height: 30px;
+}
+.qa_fields.ui-accordion {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border-radius: 2px !important;
+    overflow: hidden;
+}
+.qa_fields.ui-accordion h3 {
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    background: #fff !important;
+    width: 100%;
+    text-align: left;
+    transition: .4s;
+    border-bottom: 1px solid #e3e3e3;
+    position: relative;
+    font-size: 1.2em;
+    font-weight: 500;
+    color: #383838;
+    padding: 15px 20px;
+    box-sizing: border-box;
+}
+.qa_fields.ui-accordion h3.ui-state-focus {
+    outline: 0;
+    -moz-outline-style: none;
+}
+.qa_fields.ui-accordion h3:before {
+    content: "+";
+    position: absolute;
+    right: 21px;
+    font-size: 1.3em;
+    top: 13px;
+    bottom: 0;
+    font-weight: 400;
+}
+.qa_fields.ui-accordion h3.ui-state-active:before {
+    content: "_";
+    font-size: 1.1em;
+    font-weight: bold;
+    top: 7px;
+    right: 22px;
+}
+.qa_fields.ui-accordion > div {
+    background-color: #fff;
+    overflow: hidden;
+    transition: max-height .2s ease-out;
+    text-align: left;
+    border-bottom: 1px solid #e3e3e3;
+    box-sizing: border-box;
+}
+.qa_fields.ui-accordion > div:last-child {
+    border-bottom: 0 none;
+}
+.qa_fields.ui-accordion > div .qa_block_content {
+    font-size: 1em;
+    line-height: 2em;
+    font-weight: 400;
+    color: #6f6f6f;
+    margin: 0;
+    padding: 15px 20px;
+}
+.qa_fields.ui-accordion > div input {
+    margin-left: 15px;
+    width: 60%;
+}
+.qa_fields.ui-accordion > div input.remove_faq {
+    margin-left: 0;
+    width: auto;
+}
+.framework-form-table.berocket_framework_menu_general tr th {
+    width: 250px;
+}
+.br_framework_settings .qa_block_content textarea {
+    min-height: 100px;
+}
+.br_framework_settings .additional_faq .add_faq {
+    margin: 0;
+}

@@ -1,0 +1,345 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Product Tab Manager\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-06-10 08:13+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.2.2; wp-5.2.1"
+
+#: main.php:208
+msgid ""
+"<strong>WooCommerce Product Tab Manager plugin replacing tabs inside "
+"products with new tab locations</strong>"
+msgstr ""
+
+#: includes/paid.php:256
+msgid "Add"
+msgstr ""
+
+#: includes/custom_post_locations.php:21
+msgid "Add Location"
+msgstr ""
+
+#: includes/custom_post_locations.php:22
+msgid "Add New Location"
+msgstr ""
+
+#: includes/custom_post_tab.php:19
+msgid "Add New Tab"
+msgstr ""
+
+#: includes/custom_post_tab.php:18
+msgid "Add Tab"
+msgstr ""
+
+#: includes/custom_post_locations.php:58
+msgid "Additional Information"
+msgstr ""
+
+#: includes/custom_post_locations.php:20
+msgctxt "Admin menu name"
+msgid "Locations"
+msgstr ""
+
+#: includes/custom_post_tab.php:17
+msgctxt "Admin menu name"
+msgid "Tabs"
+msgstr ""
+
+#: includes/custom_post_tab.php:80 includes/custom_post_tab.php:169
+msgid "Admin name"
+msgstr ""
+
+#: includes/paid.php:245 includes/paid.php:272
+msgid "Answer"
+msgstr ""
+
+#: includes/paid.php:128
+msgid "Answer font size"
+msgstr ""
+
+#: includes/paid.php:147
+msgid "Background opened question color"
+msgstr ""
+
+#: includes/paid.php:141
+msgid "Background question color"
+msgstr ""
+
+#. Author of the plugin
+msgid "BeRocket"
+msgstr ""
+
+#: includes/paid.php:135
+msgid "Border color"
+msgstr ""
+
+#: includes/paid.php:194
+msgid "Category"
+msgstr ""
+
+#: includes/custom_post_locations.php:62
+msgid "Conditions"
+msgstr ""
+
+#: includes/custom_post_locations.php:267 includes/custom_post_tab.php:123
+msgid "Connection between condition can be AND and OR"
+msgstr ""
+
+#: templates/tabs.php:57
+msgid "Create new tab"
+msgstr ""
+
+#: main.php:297
+msgid "CSS/JavaScript"
+msgstr ""
+
+#: main.php:342
+msgid "Custom CSS"
+msgstr ""
+
+#: includes/custom_post_locations.php:57 includes/custom_post_locations.php:64
+msgid "Description"
+msgstr ""
+
+#: main.php:323
+msgid "Disable Font Awesome"
+msgstr ""
+
+#: main.php:327
+msgid ""
+"Don't loading css file for Font Awesome on site front end. Use it only if "
+"you doesn't uses Font Awesome icons in widgets or you have Font Awesome in "
+"your theme."
+msgstr ""
+
+#: includes/custom_post_locations.php:23 includes/custom_post_tab.php:20
+msgid "Edit"
+msgstr ""
+
+#: includes/custom_post_locations.php:24
+msgid "Edit Location"
+msgstr ""
+
+#: includes/custom_post_tab.php:21
+msgid "Edit Tab"
+msgstr ""
+
+#: main.php:334
+msgid "Font Awesome 4"
+msgstr ""
+
+#: main.php:335
+msgid "Font Awesome 5"
+msgstr ""
+
+#: main.php:330
+msgid "Font Awesome Version"
+msgstr ""
+
+#: main.php:293
+msgid "General"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "http://berocket.com"
+msgstr ""
+
+#. URI of the plugin
+msgid "http://berocket.com/product/woocommerce-product-tabs-manager"
+msgstr ""
+
+#: includes/custom_post_locations.php:268 includes/custom_post_tab.php:124
+msgid "is used between condition in one section"
+msgstr ""
+
+#: includes/custom_post_locations.php:269 includes/custom_post_tab.php:125
+msgid "is used between different sections with conditions"
+msgstr ""
+
+#: main.php:348
+msgid "JavaScript On Page Load"
+msgstr ""
+
+#: main.php:312
+msgid "License"
+msgstr ""
+
+#: includes/custom_post_locations.php:19
+msgid "Location"
+msgstr ""
+
+#: main.php:307 includes/custom_post_locations.php:16
+#: includes/custom_post_locations.php:18
+msgid "Locations"
+msgstr ""
+
+#. Description of the plugin
+msgid "Manage product tabs. Set specific tabs per category or product"
+msgstr ""
+
+#: includes/custom_post_locations.php:25
+msgid "New Location"
+msgstr ""
+
+#: includes/custom_post_tab.php:22
+msgid "New Tab"
+msgstr ""
+
+#: includes/paid.php:181
+msgid "No additional info"
+msgstr ""
+
+#: includes/custom_post_locations.php:29
+msgid "No Locations found"
+msgstr ""
+
+#: includes/custom_post_locations.php:30
+msgid "No Locations found in trash"
+msgstr ""
+
+#: includes/custom_post_tab.php:26
+msgid "No Tabs found"
+msgstr ""
+
+#: includes/custom_post_tab.php:27
+msgid "No Tabs found in trash"
+msgstr ""
+
+#: includes/paid.php:217
+msgid "Product count to display"
+msgstr ""
+
+#: includes/paid.php:193
+msgid "Products"
+msgstr ""
+
+#: includes/paid.php:202
+msgid "Products category"
+msgstr ""
+
+#: includes/paid.php:183
+msgid "Products list"
+msgstr ""
+
+#: includes/paid.php:210
+msgid "Products to display"
+msgstr ""
+
+#: includes/paid.php:241 includes/paid.php:271
+msgid "Question"
+msgstr ""
+
+#: includes/paid.php:121
+msgid "Question font size"
+msgstr ""
+
+#: includes/paid.php:182
+msgid "Question/Answer list"
+msgstr ""
+
+#: includes/paid.php:118
+msgid "Question/Answer list style"
+msgstr ""
+
+#: includes/custom_post_tab.php:148
+msgid "Read More..."
+msgstr ""
+
+#: includes/paid.php:249 includes/paid.php:273 templates/tabs.php:27
+msgid "Remove"
+msgstr ""
+
+#: includes/custom_post_locations.php:59
+#, php-format
+msgid "Reviews (%d)"
+msgstr ""
+
+#: includes/custom_post_locations.php:28
+msgid "Search Locations"
+msgstr ""
+
+#: includes/custom_post_tab.php:25
+msgid "Search Tabs"
+msgstr ""
+
+#: includes/paid.php:162
+msgid "Styles"
+msgstr ""
+
+#: includes/custom_post_tab.php:16
+msgid "Tab"
+msgstr ""
+
+#: includes/custom_post_tab.php:58
+msgid "Tab settings"
+msgstr ""
+
+#: includes/custom_post_locations.php:266 includes/custom_post_tab.php:122
+msgid "Tab without any condition will be displayed on all products"
+msgstr ""
+
+#: main.php:302 includes/custom_post_tab.php:13 includes/custom_post_tab.php:15
+msgid "Tabs"
+msgstr ""
+
+#: includes/custom_post_locations.php:63
+msgid "Tabs Manager Settings"
+msgstr ""
+
+#: includes/custom_post_tab.php:29
+msgid "This is where you can add new tabs that you can add to products."
+msgstr ""
+
+#: includes/custom_post_locations.php:32
+msgid "This is where you can add tabs to the products/categories/etc."
+msgstr ""
+
+#: includes/paid.php:178
+msgid "Type of additional info"
+msgstr ""
+
+#: includes/paid.php:190
+msgid "Type of products"
+msgstr ""
+
+#: includes/custom_post_locations.php:59
+#, php-format
+msgid ""
+"Use %d in the Title to substitute the number of reviews for the product."
+msgstr ""
+
+#: main.php:338
+msgid ""
+"Version of Font Awesome that will be used on front end. Please select "
+"version that you have in your theme"
+msgstr ""
+
+#: includes/custom_post_locations.php:27
+msgid "View Location"
+msgstr ""
+
+#: includes/custom_post_locations.php:26
+msgid "View Locations"
+msgstr ""
+
+#: includes/custom_post_tab.php:24
+msgid "View Tab"
+msgstr ""
+
+#: includes/custom_post_tab.php:23
+msgid "View Tabs"
+msgstr ""
+
+#. Name of the plugin
+msgid "WooCommerce Product Tab Manager"
+msgstr ""
