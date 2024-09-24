@@ -1,0 +1,1 @@
+# plugins-product-tabs-manager-for-woocommerce
