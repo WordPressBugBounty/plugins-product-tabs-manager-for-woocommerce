@@ -14,23 +14,23 @@ class BeRocket_tab_manager_custom_post extends BeRocket_custom_post_class {
         add_action('tab_manager_framework_construct', array($this, 'init_conditions'));
         $this->post_name = 'br_tabs_location';
         $this->post_settings = array(
-            'label' => __( 'Locations', 'product-tabs-manager-for-woocommerce' ),
+            'label' => 'Locations',
             'labels' => array(
-                'name'               => __( 'Locations', 'product-tabs-manager-for-woocommerce' ),
-                'singular_name'      => __( 'Location', 'product-tabs-manager-for-woocommerce' ),
-                'menu_name'          => _x( 'Locations', 'Admin menu name', 'product-tabs-manager-for-woocommerce' ),
-                'add_new'            => __( 'Add Location', 'product-tabs-manager-for-woocommerce' ),
-                'add_new_item'       => __( 'Add New Location', 'product-tabs-manager-for-woocommerce' ),
-                'edit'               => __( 'Edit', 'product-tabs-manager-for-woocommerce' ),
-                'edit_item'          => __( 'Edit Location', 'product-tabs-manager-for-woocommerce' ),
-                'new_item'           => __( 'New Location', 'product-tabs-manager-for-woocommerce' ),
-                'view'               => __( 'View Locations', 'product-tabs-manager-for-woocommerce' ),
-                'view_item'          => __( 'View Location', 'product-tabs-manager-for-woocommerce' ),
-                'search_items'       => __( 'Search Locations', 'product-tabs-manager-for-woocommerce' ),
-                'not_found'          => __( 'No Locations found', 'product-tabs-manager-for-woocommerce' ),
-                'not_found_in_trash' => __( 'No Locations found in trash', 'product-tabs-manager-for-woocommerce' ),
+                'name'               => 'Locations',
+                'singular_name'      => 'Location',
+                'menu_name'          => 'Locations',
+                'add_new'            => 'Add Location',
+                'add_new_item'       => 'Add New Location',
+                'edit'               => 'Edit',
+                'edit_item'          => 'Edit Location',
+                'new_item'           => 'New Location',
+                'view'               => 'View Locations',
+                'view_item'          => 'View Location',
+                'search_items'       => 'Search Locations',
+                'not_found'          => 'No Locations found',
+                'not_found_in_trash' => 'No Locations found in trash',
             ),
-            'description'     => __( 'This is where you can add tabs to the products/categories/etc.', 'product-tabs-manager-for-woocommerce' ),
+            'description'     => 'This is where you can add tabs to the products/categories/etc.',
             'public'          => true,
             'show_ui'         => true,
             'map_meta_cap'    => true,
@@ -54,15 +54,6 @@ class BeRocket_tab_manager_custom_post extends BeRocket_custom_post_class {
             'sortable_name'     => array(),
         );
 
-        self::$core_tabs = array(
-            'description'            => array( 'id' => 'description',            'type' => 'core', 'title' => __( 'Description', 'product-tabs-manager-for-woocommerce' ) ),
-            'additional_information' => array( 'id' => 'additional_information', 'type' => 'core', 'title' => __( 'Additional Information', 'product-tabs-manager-for-woocommerce' ) ),
-            'reviews'                => array( 'id' => 'reviews',                'type' => 'core', 'title' => __( 'Reviews (%d)', 'product-tabs-manager-for-woocommerce' ), 'description' => __( 'Use %d in the Title to substitute the number of reviews for the product.', 'product-tabs-manager-for-woocommerce' ) )
-        );
-
-        $this->add_meta_box('conditions', __( 'Conditions', 'product-tabs-manager-for-woocommerce' ));
-        $this->add_meta_box('settings', __( 'Tabs Manager Settings', 'product-tabs-manager-for-woocommerce' ));
-        $this->add_meta_box('description', __( 'Description', 'product-tabs-manager-for-woocommerce' ), false, 'side');
         add_filter('brfr_berocket_tab_manager_location_editor_cp_locations', array($this, 'section_cp_locations'), 10, 4);
         add_filter( 'woocommerce_product_tabs', array( $this, 'woocommerce_product_tabs' ), 29999 );
         remove_filter( 'woocommerce_product_tabs', 'woocommerce_sort_product_tabs', 99 );
@@ -71,13 +62,41 @@ class BeRocket_tab_manager_custom_post extends BeRocket_custom_post_class {
         //Add to product
         add_action( 'add_meta_boxes_product', array($this, 'add_meta_box_product_page'), 1, 1 );
     }
-    public function init_conditions() {
+
+    function init_translation() {
+        self::$core_tabs = array(
+            'description'            => array( 'id' => 'description',            'type' => 'core', 'title' => __( 'Description', 'product-tabs-manager-for-woocommerce' ) ),
+            'additional_information' => array( 'id' => 'additional_information', 'type' => 'core', 'title' => __( 'Additional Information', 'product-tabs-manager-for-woocommerce' ) ),
+            'reviews'                => array( 'id' => 'reviews',                'type' => 'core', 'title' => __( 'Reviews (%d)', 'product-tabs-manager-for-woocommerce' ), 'description' => __( 'Use %d in the Title to substitute the number of reviews for the product.', 'product-tabs-manager-for-woocommerce' ) )
+        );
+        $this->post_settings['label'] = __( 'Locations', 'product-tabs-manager-for-woocommerce' );
+        $this->post_settings['labels'] = array(
+            'name'               => __( 'Locations', 'product-tabs-manager-for-woocommerce' ),
+            'singular_name'      => __( 'Location', 'product-tabs-manager-for-woocommerce' ),
+            'menu_name'          => _x( 'Locations', 'Admin menu name', 'product-tabs-manager-for-woocommerce' ),
+            'add_new'            => __( 'Add Location', 'product-tabs-manager-for-woocommerce' ),
+            'add_new_item'       => __( 'Add New Location', 'product-tabs-manager-for-woocommerce' ),
+            'edit'               => __( 'Edit', 'product-tabs-manager-for-woocommerce' ),
+            'edit_item'          => __( 'Edit Location', 'product-tabs-manager-for-woocommerce' ),
+            'new_item'           => __( 'New Location', 'product-tabs-manager-for-woocommerce' ),
+            'view'               => __( 'View Locations', 'product-tabs-manager-for-woocommerce' ),
+            'view_item'          => __( 'View Location', 'product-tabs-manager-for-woocommerce' ),
+            'search_items'       => __( 'Search Locations', 'product-tabs-manager-for-woocommerce' ),
+            'not_found'          => __( 'No Locations found', 'product-tabs-manager-for-woocommerce' ),
+            'not_found_in_trash' => __( 'No Locations found in trash', 'product-tabs-manager-for-woocommerce' ),
+        );
+        $this->post_settings['description'] = __( 'This is where you can add tabs to the products/categories/etc.', 'product-tabs-manager-for-woocommerce' );
         $this->conditions = new BeRocket_conditions_tab_manager($this->post_name.'[data]', $this->hook_name, array(
             'condition_product',
             'condition_product_sale',
             'condition_product_bestsellers',
             'condition_product_totalsales',
         ));
+        $this->add_meta_box('conditions', __( 'Conditions', 'product-tabs-manager-for-woocommerce' ));
+        $this->add_meta_box('settings', __( 'Tabs Manager Settings', 'product-tabs-manager-for-woocommerce' ));
+        $this->add_meta_box('description', __( 'Description', 'product-tabs-manager-for-woocommerce' ), false, 'side');
+    }
+    public function init_conditions() {
     }
     public function conditions($post) {
         $options = $this->get_option( $post->ID );

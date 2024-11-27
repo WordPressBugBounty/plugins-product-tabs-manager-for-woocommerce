@@ -11,23 +11,23 @@ class BeRocket_tab_manager_product_tab extends BeRocket_custom_post_class {
     function __construct() {
         $this->post_name = 'br_product_tab';
         $this->post_settings = array(
-            'label' => __( 'Tabs', 'product-tabs-manager-for-woocommerce' ),
+            'label' => 'Tabs',
             'labels' => array(
-                'name'               => __( 'Tabs', 'product-tabs-manager-for-woocommerce' ),
-                'singular_name'      => __( 'Tab', 'product-tabs-manager-for-woocommerce' ),
-                'menu_name'          => _x( 'Tabs', 'Admin menu name', 'product-tabs-manager-for-woocommerce' ),
-                'add_new'            => __( 'Add Tab', 'product-tabs-manager-for-woocommerce' ),
-                'add_new_item'       => __( 'Add New Tab', 'product-tabs-manager-for-woocommerce' ),
-                'edit'               => __( 'Edit', 'product-tabs-manager-for-woocommerce' ),
-                'edit_item'          => __( 'Edit Tab', 'product-tabs-manager-for-woocommerce' ),
-                'new_item'           => __( 'New Tab', 'product-tabs-manager-for-woocommerce' ),
-                'view'               => __( 'View Tabs', 'product-tabs-manager-for-woocommerce' ),
-                'view_item'          => __( 'View Tab', 'product-tabs-manager-for-woocommerce' ),
-                'search_items'       => __( 'Search Tabs', 'product-tabs-manager-for-woocommerce' ),
-                'not_found'          => __( 'No Tabs found', 'product-tabs-manager-for-woocommerce' ),
-                'not_found_in_trash' => __( 'No Tabs found in trash', 'product-tabs-manager-for-woocommerce' ),
+                'name'               => 'Tabs',
+                'singular_name'      => 'Tab',
+                'menu_name'          => 'Tabs',
+                'add_new'            => 'Add Tab',
+                'add_new_item'       => 'Add New Tab',
+                'edit'               => 'Edit',
+                'edit_item'          => 'Edit Tab',
+                'new_item'           => 'New Tab',
+                'view'               => 'View Tabs',
+                'view_item'          => 'View Tab',
+                'search_items'       => 'Search Tabs',
+                'not_found'          => 'No Tabs found',
+                'not_found_in_trash' => 'No Tabs found in trash',
             ),
-            'description'     => __( 'This is where you can add new tabs that you can add to products.', 'product-tabs-manager-for-woocommerce' ),
+            'description'     => 'This is where you can add new tabs that you can add to products.',
             'public'          => true,
             'show_ui'         => true,
             'map_meta_cap'    => true,
@@ -56,9 +56,29 @@ class BeRocket_tab_manager_product_tab extends BeRocket_custom_post_class {
             'products'      => array(),
         );
 
-        $this->add_meta_box('meta_box_settings', __( 'Tab settings', 'product-tabs-manager-for-woocommerce' ));
         add_filter('berocket_custom_post_'.$this->post_name.'_manage_edit_columns', array($this, 'additional_manage_edit_columns'), 1);
         parent::__construct();
+    }
+
+    function init_translation() {
+        $this->post_settings['label'] = __( 'Tabs', 'product-tabs-manager-for-woocommerce' );
+        $this->post_settings['labels'] = array(
+            'name'               => __( 'Tabs', 'product-tabs-manager-for-woocommerce' ),
+            'singular_name'      => __( 'Tab', 'product-tabs-manager-for-woocommerce' ),
+            'menu_name'          => _x( 'Tabs', 'Admin menu name', 'product-tabs-manager-for-woocommerce' ),
+            'add_new'            => __( 'Add Tab', 'product-tabs-manager-for-woocommerce' ),
+            'add_new_item'       => __( 'Add New Tab', 'product-tabs-manager-for-woocommerce' ),
+            'edit'               => __( 'Edit', 'product-tabs-manager-for-woocommerce' ),
+            'edit_item'          => __( 'Edit Tab', 'product-tabs-manager-for-woocommerce' ),
+            'new_item'           => __( 'New Tab', 'product-tabs-manager-for-woocommerce' ),
+            'view'               => __( 'View Tabs', 'product-tabs-manager-for-woocommerce' ),
+            'view_item'          => __( 'View Tab', 'product-tabs-manager-for-woocommerce' ),
+            'search_items'       => __( 'Search Tabs', 'product-tabs-manager-for-woocommerce' ),
+            'not_found'          => __( 'No Tabs found', 'product-tabs-manager-for-woocommerce' ),
+            'not_found_in_trash' => __( 'No Tabs found in trash', 'product-tabs-manager-for-woocommerce' ),
+        );
+        $this->post_settings['description'] = __( 'This is where you can add new tabs that you can add to products.', 'product-tabs-manager-for-woocommerce' );
+        $this->add_meta_box('meta_box_settings', __( 'Tab settings', 'product-tabs-manager-for-woocommerce' ));
     }
 
     public function meta_box_settings( $post ) {
