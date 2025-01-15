@@ -5,7 +5,7 @@ Donate link: https://berocket.com/woocommerce-product-tabs-manager/?utm_source=w
 Tags: product, tabs manager, product tabs, woocommerce tabs, woocommerce product tabs, woocommerce custom product tabs, product tabs manager, product tabs edit, custom product tabs, post tab, category tab, wordpress tab, repeatable, woo tabs, wc tabs, wc product tabs, wc custom product tabs, berocket, berocket product tabs manager for woocommerce
 Requires at least: 5.0
 Tested up to: 6.7
-Stable tag: 1.1.9
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +96,10 @@ You can try this plugin's admin side [here](https://berocket.com/woocommerce-pro
 ---
 
 == Changelog ==
+
+= 1.2.0 =
+* Enhancement - Compatibility version: WooCommerce 9.5
+* Fix - Change CDN links for elements
 
 = 1.1.9 =
 * Enhancement - Compatibility version: Wordpress 6.7 and WooCommerce 9.4
