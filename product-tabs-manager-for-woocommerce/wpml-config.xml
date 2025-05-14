@@ -1,0 +1,6 @@
+<wpml-config>  
+    <custom-types>
+        <custom-type translate="1">br_product_tab</custom-type>
+        <custom-type translate="1">br_tabs_location</custom-type>
+    </custom-types> 
+</wpml-config>
