@@ -5,7 +5,7 @@ Donate link: https://berocket.com/woocommerce-product-tabs-manager/?utm_source=w
 Tags: tabs, product tab manager, product tabs, woocommerce tabs, unique tabs
 Requires at least: 5.0
 Tested up to: 6.8
-Stable tag: 1.2.1
+Stable tag: 1.2.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +96,9 @@ You can try this plugin's admin side [here](https://berocket.com/woocommerce-pro
 —
 
 == Changelog ==
+
+= 1.2.1.1 =
+* Enhancement - Compatibility version: WooCommerce 10.0
 
 = 1.2.1 =
 * Enhancement - Compatibility version: Wordpress 6.8 and WooCommerce 9.8
