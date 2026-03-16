@@ -323,24 +323,6 @@ class BeRocket_tab_manager extends BeRocket_Framework {
                     ),
                 ),
                 'CSS/JavaScript'     => array(
-                    'global_font_awesome_disable' => array(
-                        "label"     => __( 'Disable Font Awesome', "product-tabs-manager-for-woocommerce" ),
-                        "type"      => "checkbox",
-                        "name"      => "fontawesome_frontend_disable",
-                        "value"     => '1',
-                        'label_for' => __('Don\'t loading css file for Font Awesome on site front end. Use it only if you doesn\'t uses Font Awesome icons in widgets or you have Font Awesome in your theme.', 'product-tabs-manager-for-woocommerce'),
-                    ),
-                    'global_fontawesome_version' => array(
-                        "label"    => __( 'Font Awesome Version', "product-tabs-manager-for-woocommerce" ),
-                        "name"     => "fontawesome_frontend_version",
-                        "type"     => "selectbox",
-                        "options"  => array(
-                            array('value' => '', 'text' => __('Font Awesome 4', 'product-tabs-manager-for-woocommerce')),
-                            array('value' => 'fontawesome5', 'text' => __('Font Awesome 5', 'product-tabs-manager-for-woocommerce')),
-                        ),
-                        "value"    => '',
-                        "label_for" => __('Version of Font Awesome that will be used on front end. Please select version that you have in your theme', 'product-tabs-manager-for-woocommerce'),
-                    ),
                     array(
                         "type"  => "textarea",
                         "label" => __('Custom CSS', 'product-tabs-manager-for-woocommerce'),
