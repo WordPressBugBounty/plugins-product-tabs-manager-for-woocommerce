@@ -9,6 +9,7 @@ foreach ( glob( __DIR__ . "/includes/*.php") as $filename ) {
 foreach ( glob( plugin_dir_path( __FILE__ ) . "includes/compatibility/*.php" ) as $filename ) {
     include_once( $filename );
 }
+include_once(plugin_dir_path( __FILE__ ) . "includes/admin/funnels.php");
 
 class BeRocket_tab_manager extends BeRocket_Framework {
     public static $settings_name = 'br-tab_manager-options';
