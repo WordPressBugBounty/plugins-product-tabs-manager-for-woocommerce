@@ -5,7 +5,7 @@ Donate link: https://berocket.com/woocommerce-product-tabs-manager/?utm_source=w
 Tags: tabs, product tab manager, product tabs, woocommerce tabs, unique tabs
 Requires at least: 5.0
 Tested up to: 6.9.4
-Stable tag: 1.2.1.6
+Stable tag: 3.0.9.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,11 +14,6 @@ With Product Tabs Manager for WooCommerce You can create any tabs for products t
 == Description ==
 
 With Product Tabs Manager for WooCommerce You can create any tabs for products that you want. Create one tab for all products or custom tabs for each products. Sort default WooCommerce and custom product tabs as You want. Use WordPress native WYSIWYG editor for create custom product tabs.
-
-= 🚀 Spring Premium Days is LIVE! =
-**Save 30%** on Pro features across BeRocket plugins. 
-*Enhance product pages with custom tabs tailored for products or categories. Answer common customer questions or display related products inside tabs to boost confidence and increase sales.*
-🌿 Improve your store today. [**Limited time offer!**](https://berocket.com/woocommerce-product-tabs-manager/?utm_source=free_plugin&utm_medium=wporg&utm_campaign=spring_2026&utm_content=top_ad_cta&utm_term=tab_manager)
 
 = Features: =
 &#9989; Infinite Tabs for WooCommerce products
@@ -101,6 +96,11 @@ You can try this plugin's admin side [here](https://berocket.com/woocommerce-pro
 —
 
 == Changelog ==
+
+= 3.0.9.4 =
+* Enhancement - Compatibility version: Wordpress 6.9.4
+* Enhancement - Version same as premium plugin
+* Fix - PHP fatal error on plugin update when other BeRocket plugin installed
 
 = 1.2.1.6 =
 * Enhancement - Compatibility version: WooCommerce 10.7

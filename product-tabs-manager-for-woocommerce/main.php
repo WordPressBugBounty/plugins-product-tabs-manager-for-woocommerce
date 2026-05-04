@@ -9,6 +9,9 @@ foreach ( glob( __DIR__ . "/includes/*.php") as $filename ) {
 foreach ( glob( plugin_dir_path( __FILE__ ) . "includes/compatibility/*.php" ) as $filename ) {
     include_once( $filename );
 }
+if( ( ! defined("BPTM_VER_PAID_DISABLE") || ! BPTM_VER_PAID_DISABLE ) && file_exists(__DIR__ . "/paid/paid.php") ) {
+    include_once(__DIR__ . "/paid/paid.php");
+}
 include_once(plugin_dir_path( __FILE__ ) . "includes/admin/funnels.php");
 
 class BeRocket_tab_manager extends BeRocket_Framework {
