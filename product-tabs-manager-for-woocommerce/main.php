@@ -32,6 +32,7 @@ class BeRocket_tab_manager extends BeRocket_Framework {
             'key'         => '',
             'name'        => '',
             'plugin_name' => 'tab_manager',
+            'plugin_sku'  => 'tabs',
             'full_name'   => 'WooCommerce Product Tab Manager',
             'norm_name'   => 'Tab Manager',
             'price'       => '24',
@@ -70,6 +71,8 @@ class BeRocket_tab_manager extends BeRocket_Framework {
             new BeRocket_tab_manager_product_tab();
             new BeRocket_tab_manager_custom_post();
         }
+
+	    $this->active_libraries = ['tooltip'];
         $this->framework_data['fontawesome_frontend'] = true;
         parent::__construct( $this );
         if( $this->init_validation() ) {

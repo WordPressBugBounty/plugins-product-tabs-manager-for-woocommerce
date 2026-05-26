@@ -320,3 +320,7 @@
 .br_framework_settings .additional_faq .add_faq {
     margin: 0;
 }
+.br_framework_settings.br_tabs_settings .button.br-remove_tab {
+    min-height: 30px;
+    line-height: 30px;
+}
