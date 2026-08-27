@@ -28,7 +28,7 @@ class BeRocket_tab_manager_product_tab extends BeRocket_custom_post_class {
                 'not_found_in_trash' => 'No Tabs found in trash',
             ),
             'description'     => 'This is where you can add new tabs that you can add to products.',
-            'public'          => true,
+            'public'          => false,
             'show_ui'         => true,
             'map_meta_cap'    => true,
             'capability_type' => 'product',
@@ -120,15 +120,56 @@ class BeRocket_tab_manager_product_tab extends BeRocket_custom_post_class {
 
     public function wc_save_product_without_check( $post_id, $post ) {
         if ( isset( $_POST['br_product_tab'] ) ) {
-            $br_product_tab = $_POST['br_product_tab'];
+            $br_product_tab = is_array($_POST['br_product_tab'])
+                ? wp_unslash($_POST['br_product_tab'])
+                : array();
+            if( isset($br_product_tab['admin_name']) ) {
+                $br_product_tab['admin_name'] = is_scalar($br_product_tab['admin_name'])
+                    ? sanitize_text_field($br_product_tab['admin_name'])
+                    : '';
+            }
             if( isset($br_product_tab['additional_faq']) && is_array($br_product_tab['additional_faq']) ) {
                 foreach($br_product_tab['additional_faq'] as $i => $qa) {
-                    if ( empty( $qa['q'] ) or empty( $qa['a'] ) ) {
+                    $question = isset($qa['q']) && is_scalar($qa['q'])
+                        ? sanitize_text_field($qa['q'])
+                        : '';
+                    $answer = isset($qa['a']) && is_scalar($qa['a'])
+                        ? wp_kses_post($qa['a'])
+                        : '';
+                    if ( '' === $question || '' === $answer ) {
                         unset($br_product_tab['additional_faq'][$i]);
                     } else {
-                        $br_product_tab['additional_faq'][ $i ]['a'] = nl2br( $br_product_tab['additional_faq'][ $i ]['a'] );
+                        $br_product_tab['additional_faq'][$i]['q'] = $question;
+                        $br_product_tab['additional_faq'][$i]['a'] = nl2br($answer);
                     }
                 }
+            }
+            if( isset($br_product_tab['additional']) ) {
+                $additional = is_string($br_product_tab['additional'])
+                    ? sanitize_key($br_product_tab['additional'])
+                    : '';
+                $br_product_tab['additional'] = in_array($additional, array('', 'faq', 'product_list'), true)
+                    ? $additional
+                    : '';
+            }
+            if( isset($br_product_tab['additional_product']) && is_array($br_product_tab['additional_product']) ) {
+                $product_settings = $br_product_tab['additional_product'];
+                $type = isset($product_settings['type']) && is_string($product_settings['type'])
+                    ? sanitize_key($product_settings['type'])
+                    : 'products';
+                $product_settings['type'] = in_array($type, array('products', 'category'), true)
+                    ? $type
+                    : 'products';
+                $product_settings['products'] = isset($product_settings['products']) && is_array($product_settings['products'])
+                    ? array_values(array_unique(array_filter(array_map('absint', array_filter($product_settings['products'], 'is_scalar')))))
+                    : array();
+                $product_settings['category'] = isset($product_settings['category']) && is_scalar($product_settings['category'])
+                    ? absint($product_settings['category'])
+                    : 0;
+                $product_settings['count'] = isset($product_settings['count']) && is_scalar($product_settings['count'])
+                    ? min(100, max(1, absint($product_settings['count'])))
+                    : 4;
+                $br_product_tab['additional_product'] = $product_settings;
             }
             $_POST['br_product_tab'] = $br_product_tab;
         }
@@ -137,6 +178,22 @@ class BeRocket_tab_manager_product_tab extends BeRocket_custom_post_class {
             $_POST[$this->post_name] = $BeRocket_tab_manager->recursive_array_set($this->default_settings, $_POST[$this->post_name]);
         }
         parent::wc_save_product_without_check($post_id, $post);
+    }
+    public function wc_save_check($post_id, $post) {
+        if( ! $post || $this->post_name !== $post->post_type ) {
+            return false;
+        }
+        if( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+            return false;
+        }
+        if( ! current_user_can('edit_post', $post_id) ) {
+            return false;
+        }
+        $nonce_name = $this->post_name . '_nonce';
+        $nonce = isset($_POST[$nonce_name]) && is_string($_POST[$nonce_name])
+            ? sanitize_text_field(wp_unslash($_POST[$nonce_name]))
+            : '';
+        return wp_verify_nonce($nonce, $this->post_name . '_check');
     }
     public function description($post) {
         ?>
@@ -147,8 +204,15 @@ class BeRocket_tab_manager_product_tab extends BeRocket_custom_post_class {
         <?php
     }
 
-    public function get_custom_tab( $id ) {
+    public function get_custom_tab( $id, $tab = array() ) {
         global $wp_embed;
+        if( is_array($tab) && isset($tab['id']) && is_scalar($tab['id']) ) {
+            $id = $tab['id'];
+        }
+        $id = absint($id);
+        if( ! $id || 'br_product_tab' !== get_post_type($id) || 'publish' !== get_post_status($id) ) {
+            return;
+        }
         $post = get_post( $id );
         if ( $post ) {
             $post_content = do_blocks($post->post_content);
@@ -199,7 +263,7 @@ class BeRocket_tab_manager_product_tab extends BeRocket_custom_post_class {
             case "admin_name":
 
                 $edit_link = get_edit_post_link( $post->ID );
-                $title = '<a class="row-title" href="' . $edit_link . '">' . br_get_value_from_array($options, array('admin_name')) . '</a>';
+                $title = '<a class="row-title" href="' . esc_url($edit_link) . '">' . esc_html(br_get_value_from_array($options, array('admin_name'))) . '</a>';
 
                 echo '<strong>' . $title . '</strong>';
 

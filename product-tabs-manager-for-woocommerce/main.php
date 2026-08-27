@@ -347,6 +347,23 @@ class BeRocket_tab_manager extends BeRocket_Framework {
             )
         );
     }
+    public function save_settings_callback($settings) {
+        $settings = parent::save_settings_callback($settings);
+        if( isset($settings['styles']) && is_array($settings['styles']) ) {
+            foreach(array('border_color', 'question_color', 'q_opened_color') as $color_key) {
+                $color = isset($settings['styles'][$color_key]) && is_scalar($settings['styles'][$color_key])
+                    ? sanitize_hex_color('#' . ltrim((string) $settings['styles'][$color_key], '#'))
+                    : '';
+                $settings['styles'][$color_key] = $color ? ltrim($color, '#') : '';
+            }
+            foreach(array('question_size', 'answer_size') as $size_key) {
+                $settings['styles'][$size_key] = isset($settings['styles'][$size_key]) && is_scalar($settings['styles'][$size_key])
+                    ? min(200, absint($settings['styles'][$size_key]))
+                    : '';
+            }
+        }
+        return $settings;
+    }
     function section_explanation() {
         $html ='<td colspan="2">';
         $html .= '<ol>';

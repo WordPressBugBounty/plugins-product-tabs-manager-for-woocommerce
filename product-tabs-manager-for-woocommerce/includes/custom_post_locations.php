@@ -31,7 +31,7 @@ class BeRocket_tab_manager_custom_post extends BeRocket_custom_post_class {
                 'not_found_in_trash' => 'No Locations found in trash',
             ),
             'description'     => 'This is where you can add tabs to the products/categories/etc.',
-            'public'          => true,
+            'public'          => false,
             'show_ui'         => true,
             'map_meta_cap'    => true,
             'capability_type' => 'product',
@@ -106,9 +106,9 @@ class BeRocket_tab_manager_custom_post extends BeRocket_custom_post_class {
             if( ! empty($product) && is_a($product, 'WC_Product') ) {
                 echo '<h3>
                 ' . __('This location added to single product', 'product-tabs-manager-for-woocommerce') . '
-                <a target="_blank" href="'.admin_url( 'post.php?post=' . $parent . '&action=edit' ).'">' . get_the_title($parent) . '</a>
+                <a target="_blank" href="' . esc_url(admin_url('post.php?post=' . absint($parent) . '&action=edit')) . '">' . esc_html(get_the_title($parent)) . '</a>
                 </h3>';
-                echo '<input type="hidden" name="post_parent" value="'.$parent.'">';
+                echo '<input type="hidden" name="post_parent" value="' . esc_attr($parent) . '">';
             } else {
                 echo '<h3>';
                 _e('This location added to single product, but it seems that your site do not have product with such ID or it is not product', 'product-tabs-manager-for-woocommerce');
@@ -157,12 +157,57 @@ class BeRocket_tab_manager_custom_post extends BeRocket_custom_post_class {
     public function wc_save_product_without_check( $post_id, $post ) {
         if( isset($_POST[$this->post_name]) && is_array($_POST[$this->post_name]) ) {
             $BeRocket_tab_manager = BeRocket_tab_manager::getInstance();
-            $_POST[$this->post_name] = $BeRocket_tab_manager->recursive_array_set($this->default_settings, $_POST[$this->post_name]);
+            $post_data = wp_unslash($_POST[$this->post_name]);
+            $post_data = $BeRocket_tab_manager->recursive_array_set($this->default_settings, $post_data);
+            $allowed_tabs = array_map('strval', array_keys($this->get_all_tabs()));
+            $sortable = array();
+            if( isset($post_data['sortable']) && is_array($post_data['sortable']) ) {
+                foreach($post_data['sortable'] as $tab_id => $position) {
+                    $tab_key = (string) $tab_id;
+                    if( in_array($tab_key, $allowed_tabs, true) && is_scalar($position) ) {
+                        $sortable[$tab_key] = absint($position);
+                    }
+                }
+            }
+            $sortable_names = array();
+            if( isset($post_data['sortable_name']) && is_array($post_data['sortable_name']) ) {
+                foreach($post_data['sortable_name'] as $tab_id => $title) {
+                    $tab_key = (string) $tab_id;
+                    if( isset($sortable[$tab_key]) && is_scalar($title) ) {
+                        $sortable_names[$tab_key] = sanitize_text_field($title);
+                    }
+                }
+            }
+            $post_data['sortable'] = $sortable;
+            $post_data['sortable_name'] = $sortable_names;
+            $_POST[$this->post_name] = $post_data;
         }
         if( isset($_POST[$this->post_name][ 'sortable' ]) && is_array($_POST[$this->post_name][ 'sortable' ]) ) {
             asort($_POST[$this->post_name][ 'sortable' ], SORT_NUMERIC);
         }
         parent::wc_save_product_without_check($post_id, $post);
+    }
+    public function wc_save_check($post_id, $post) {
+        if( ! $post || $this->post_name !== $post->post_type ) {
+            return false;
+        }
+        if( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+            return false;
+        }
+        if( ! current_user_can('edit_post', $post_id) ) {
+            return false;
+        }
+        if( isset($_POST['post_parent']) ) {
+            $parent_id = is_scalar($_POST['post_parent']) ? absint($_POST['post_parent']) : 0;
+            if( $parent_id && ('product' !== get_post_type($parent_id) || ! current_user_can('edit_post', $parent_id)) ) {
+                return false;
+            }
+        }
+        $nonce_name = $this->post_name . '_nonce';
+        $nonce = isset($_POST[$nonce_name]) && is_string($_POST[$nonce_name])
+            ? sanitize_text_field(wp_unslash($_POST[$nonce_name]))
+            : '';
+        return wp_verify_nonce($nonce, $this->post_name . '_check');
     }
     public function section_cp_locations($html, $item, $options, $name) {
         global $post;
@@ -313,11 +358,27 @@ class BeRocket_tab_manager_custom_post extends BeRocket_custom_post_class {
 
     public function get_tabs_from_location($location) {
         $br_location = $this->get_option( $location );
+        if( ! isset($br_location['sortable']) || ! is_array($br_location['sortable']) ) {
+            return array();
+        }
         asort($br_location[ 'sortable' ], SORT_NUMERIC);
         $tabs = array();
         $default_tabs = $this->get_default_tabs();
         foreach ( $br_location[ 'sortable' ] as $tab_id => $tab ) {
-            if( ($tab === '' || get_post_status(intval($tab_id)) != 'publish' || has_term('isdisabled', 'berocket_taxonomy_data', intval($tab_id))) && (! in_array($tab_id, $default_tabs) || $tab === '') ) continue;
+            if( is_numeric($tab_id) ) {
+                $custom_tab_id = absint($tab_id);
+                if(
+                    ! $custom_tab_id
+                    || 'br_product_tab' !== get_post_type($custom_tab_id)
+                    || 'publish' !== get_post_status($custom_tab_id)
+                    || has_term('isdisabled', 'berocket_taxonomy_data', $custom_tab_id)
+                    || $tab === ''
+                ) {
+                    continue;
+                }
+            } elseif( ! in_array($tab_id, $default_tabs, true) || $tab === '' ) {
+                continue;
+            }
             $post_slug          = $location;
             $tabs[ (is_numeric($tab_id) ? $tab_id.'_tab' : $tab_id) ] = array(
                 'id'          => $post_slug,
@@ -355,7 +416,9 @@ class BeRocket_tab_manager_custom_post extends BeRocket_custom_post_class {
         <?php
     }
     public function save_product_without_check_after($post_id) {
-        $post_data = berocket_sanitize_array($_POST[$this->post_name]);
+        $post_data = isset($_POST[$this->post_name]) && is_array($_POST[$this->post_name])
+            ? berocket_sanitize_array($_POST[$this->post_name])
+            : array();
         $options = $this->get_option($post_id);
         if( ! isset($post_data['sortable']) || ! is_array($post_data['sortable']) || ! count($post_data['sortable']) ) {
             $options['sortable'] = array();
@@ -379,7 +442,7 @@ class BeRocket_tab_manager_custom_post extends BeRocket_custom_post_class {
                     _e('Specific tab for:', 'product-tabs-manager-for-woocommerce');
                     $product = wc_get_product($parent);
                     if( ! empty($product) && is_a($product, 'WC_Product') ) {
-                        echo '<br><a target="_blank" href="'.admin_url( 'post.php?post=' . $parent . '&action=edit' ).'">' . get_the_title($parent) . '</a>';
+                        echo '<br><a target="_blank" href="' . esc_url(admin_url('post.php?post=' . absint($parent) . '&action=edit')) . '">' . esc_html(get_the_title($parent)) . '</a>';
                     } else {
                         echo '<br><strong style="color:red;">' . __('INCORRECT PRODUCT', 'product-tabs-manager-for-woocommerce') . '</strong>';
                     }
@@ -403,11 +466,11 @@ class BeRocket_tab_manager_custom_post extends BeRocket_custom_post_class {
             if( count($posts_array) > 0 ) {
                 _e('This product already has specific tabs', 'product-tabs-manager-for-woocommerce');
                 foreach($posts_array as $location) {
-                    echo '<p><a href="'.admin_url( 'post.php?post='.$location.'&action=edit' ).'">(ID: ' . $location . ') ' . get_the_title($location) . '</a></p>';
+                    echo '<p><a href="' . esc_url(admin_url('post.php?post=' . absint($location) . '&action=edit')) . '">(ID: ' . absint($location) . ') ' . esc_html(get_the_title($location)) . '</a></p>';
                 }
             } else {
                 _e('This product do not have specific tabs', 'product-tabs-manager-for-woocommerce');
-                echo '<p><a href="'.admin_url( 'post-new.php?post_type=br_tabs_location&parent_product=' . $post->ID ).'">'.__('Create Specific Tabs', 'product-tabs-manager-for-woocommerce').'</a></p>';
+                echo '<p><a href="' . esc_url(admin_url('post-new.php?post_type=br_tabs_location&parent_product=' . absint($post->ID))) . '">' . esc_html__('Create Specific Tabs', 'product-tabs-manager-for-woocommerce') . '</a></p>';
             }
         }
     }
