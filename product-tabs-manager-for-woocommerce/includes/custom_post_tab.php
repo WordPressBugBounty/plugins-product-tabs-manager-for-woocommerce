@@ -2,8 +2,31 @@
 
 class BeRocket_tab_manager_product_tab extends BeRocket_custom_post_class {
     public $hook_name = 'berocket_tab_manager_tab_editor';
+    public $import_export = array(
+        'products' => array(
+            'export_type' => 'post',
+            'post_type' => array('product', 'product_variation'),
+            'multiple' => true,
+            'on_missing' => 'remove',
+        ),
+        'additional_product' => array(
+            'products' => array(
+                'export_type' => 'post',
+                'post_type' => array('product', 'product_variation'),
+                'multiple' => true,
+                'on_missing' => 'remove',
+            ),
+            'category' => array(
+                'export_type' => 'taxonomy',
+                'taxonomy' => 'product_cat',
+                'passthrough' => array(''),
+                'on_missing' => 'remove',
+            ),
+        ),
+    );
     public $conditions;
     protected static $instance;
+    protected $rendering_tabs = array();
     public $post_type_parameters = array(
         'sortable' => false,
         'can_be_disabled' => true
@@ -43,6 +66,8 @@ class BeRocket_tab_manager_product_tab extends BeRocket_custom_post_class {
         );
 
         $this->default_settings = array(
+            'admin_name'       => '',
+            'table_style'      => '',
             'additional'        => '',
             'additional_faq'    => array(),
             'additional_product'=> array(
@@ -103,6 +128,19 @@ class BeRocket_tab_manager_product_tab extends BeRocket_custom_post_class {
                         "type"     => "text",
                         "value"    => '',
                     ),
+                    'table_style' => array(
+                        'label'     => __('Table style', 'product-tabs-manager-for-woocommerce'),
+                        'name'      => 'table_style',
+                        'type'      => 'checkbox',
+                        'tr_class'  => 'br-tab-table-style-option',
+                        'value'     => '1',
+                        'label_for' => __('Use striped rows, highlighted headers and horizontal scrolling for tables in this tab.', 'product-tabs-manager-for-woocommerce'),
+                        'text_after' => '<button type="button" class="button tiny-button br-tab-insert-table" data-table-template="'
+                            . esc_attr(wp_json_encode($this->sample_table(), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)) . '" data-success-message="'
+                            . esc_attr__('Sample table added. Edit the example values in the content editor, then save the tab.', 'product-tabs-manager-for-woocommerce') . '">'
+                            . esc_html__('Insert sample table', 'product-tabs-manager-for-woocommerce') . '</button>'
+                            . '<span class="br-tab-table-status" role="status" aria-live="polite"></span>',
+                    ),
                 ),
             ),
             array(
@@ -118,11 +156,24 @@ class BeRocket_tab_manager_product_tab extends BeRocket_custom_post_class {
         echo '</div>';
     }
 
+    public function sample_table() {
+        return '<table><caption>' . esc_html__('Size guide', 'product-tabs-manager-for-woocommerce') . '</caption>'
+            . '<thead><tr><th scope="col">' . esc_html__('Size', 'product-tabs-manager-for-woocommerce') . '</th>'
+            . '<th scope="col">' . esc_html__('Chest (cm)', 'product-tabs-manager-for-woocommerce') . '</th>'
+            . '<th scope="col">' . esc_html__('Waist (cm)', 'product-tabs-manager-for-woocommerce') . '</th></tr></thead>'
+            . '<tbody><tr><th scope="row">S</th><td>90</td><td>76</td></tr>'
+            . '<tr><th scope="row">M</th><td>94</td><td>80</td></tr>'
+            . '<tr><th scope="row">L</th><td>98</td><td>84</td></tr></tbody></table>';
+    }
+
     public function wc_save_product_without_check( $post_id, $post ) {
         if ( isset( $_POST['br_product_tab'] ) ) {
             $br_product_tab = is_array($_POST['br_product_tab'])
                 ? wp_unslash($_POST['br_product_tab'])
                 : array();
+            $br_product_tab['table_style'] = isset($br_product_tab['table_style']) && '1' === $br_product_tab['table_style']
+                ? '1'
+                : '';
             if( isset($br_product_tab['admin_name']) ) {
                 $br_product_tab['admin_name'] = is_scalar($br_product_tab['admin_name'])
                     ? sanitize_text_field($br_product_tab['admin_name'])
@@ -205,7 +256,6 @@ class BeRocket_tab_manager_product_tab extends BeRocket_custom_post_class {
     }
 
     public function get_custom_tab( $id, $tab = array() ) {
-        global $wp_embed;
         if( is_array($tab) && isset($tab['id']) && is_scalar($tab['id']) ) {
             $id = $tab['id'];
         }
@@ -214,7 +264,30 @@ class BeRocket_tab_manager_product_tab extends BeRocket_custom_post_class {
             return;
         }
         $post = get_post( $id );
-        if ( $post ) {
+        if ( $post && ! isset($this->rendering_tabs[$id]) ) {
+            $this->rendering_tabs[$id] = true;
+            try {
+                $this->render_custom_tab($post);
+            } finally {
+                unset($this->rendering_tabs[$id]);
+            }
+        }
+    }
+
+    protected function render_custom_tab( $post ) {
+        global $wp_embed;
+        $id = $post->ID;
+        $builder_content = '';
+        if ( class_exists('\\Elementor\\Plugin') ) {
+            $elementor = \Elementor\Plugin::instance();
+            if ( $elementor->db->is_built_with_elementor($id) ) {
+                // Render this tab's document, without filtering the enclosing product content.
+                $builder_content = $elementor->frontend->get_builder_content_for_display($id, true);
+            }
+        }
+        if ( '' !== $builder_content ) {
+            $post_content = $builder_content;
+        } else {
             $post_content = do_blocks($post->post_content);
             $post_content = $wp_embed->run_shortcode($post_content);
             $post_content = do_shortcode($post_content);
@@ -226,31 +299,44 @@ class BeRocket_tab_manager_product_tab extends BeRocket_custom_post_class {
             $wp_filter_content_tags = function_exists('wp_filter_content_tags') ? 'wp_filter_content_tags' : 'wp_make_content_images_responsive';
             $post_content = $wp_filter_content_tags($post_content);
             $post_content = convert_smilies($post_content);
+        }
 
-            $echo_content = '';
-            if ( strpos( $post_content, '\<\!\-\-more\-\-\>' ) !== false ) {
-                list( $first_content, $second_content ) = explode( '<!--more-->', $post_content, 2 );
-                if ( $second_content = preg_replace("#^\s*\<\/p\>#", "", $second_content) ) {
-                    $echo_content .= preg_replace("#\<p\>\s*$#", "", $first_content);
-                    $echo_content .= '<a href="#" class="br_more_content_button" >' . __( 'Read More...', 'product-tabs-manager-for-woocommerce' ) . '</a>';
-                    $echo_content .= '<div style="display:none;">' . $second_content . '</div>';
-                    $echo_content .= '
-                    <script>
-                        jQuery(document).on( "click", ".br_more_content_button", function (e) {
-                            e.preventDefault();
-                            jQuery(this).next().show(0);
-                            jQuery(this).hide(0);
-                        });
-                    </script>';
-                } else {
-                    $echo_content .= $post_content;
-                }
+        $echo_content = '';
+        if ( strpos( $post_content, '\<\!\-\-more\-\-\>' ) !== false ) {
+            list( $first_content, $second_content ) = explode( '<!--more-->', $post_content, 2 );
+            if ( $second_content = preg_replace("#^\s*\<\/p\>#", "", $second_content) ) {
+                $echo_content .= preg_replace("#\<p\>\s*$#", "", $first_content);
+                $echo_content .= '<a href="#" class="br_more_content_button" >' . __( 'Read More...', 'product-tabs-manager-for-woocommerce' ) . '</a>';
+                $echo_content .= '<div style="display:none;">' . $second_content . '</div>';
+                $echo_content .= '
+                <script>
+                    jQuery(document).on( "click", ".br_more_content_button", function (e) {
+                        e.preventDefault();
+                        jQuery(this).next().show(0);
+                        jQuery(this).hide(0);
+                    });
+                </script>';
             } else {
                 $echo_content .= $post_content;
             }
-            $echo_content = apply_filters('berocket_get_custom_tab_echo_content', $echo_content, $id);
-            echo $echo_content;
+        } else {
+            $echo_content .= $post_content;
         }
+        $options = $this->get_option($id);
+        if( '1' === $options['table_style'] ) {
+            wp_enqueue_script(
+                'berocket_tab_manager_table_style',
+                plugins_url('js/table-style.js', BeRocket_tab_manager_file),
+                array(),
+                BeRocket_tab_manager_version,
+                true
+            );
+            $echo_content = '<div class="br-tab-table-style" data-scroll-label="'
+                . esc_attr__('Scrollable table', 'product-tabs-manager-for-woocommerce') . '">'
+                . $echo_content . '</div>';
+        }
+        $echo_content = apply_filters('berocket_get_custom_tab_echo_content', $echo_content, $id);
+        echo $echo_content;
     }
     public function additional_manage_edit_columns ( $columns ) {
         $columns["admin_name"] = __( "Admin name", 'product-tabs-manager-for-woocommerce' );

@@ -3,6 +3,27 @@ class BeRocket_conditions_tab_manager extends BeRocket_conditions {
 }
 class BeRocket_tab_manager_custom_post extends BeRocket_custom_post_class {
     public $hook_name = 'berocket_tab_manager_location_editor';
+    public $import_export = array(
+        'data' => array('export_type' => 'conditions'),
+        'sortable' => array(
+            'export_type' => 'tab_manager_map',
+            'preserve_defaults' => true,
+            'post_type' => 'br_product_tab',
+            'array_keys' => true,
+            'scope' => 'package',
+            'passthrough' => array('description', 'additional_information', 'reviews'),
+            'on_missing' => 'remove',
+        ),
+        'sortable_name' => array(
+            'export_type' => 'tab_manager_map',
+            'preserve_defaults' => true,
+            'post_type' => 'br_product_tab',
+            'array_keys' => true,
+            'scope' => 'package',
+            'passthrough' => array('description', 'additional_information', 'reviews'),
+            'on_missing' => 'remove',
+        ),
+    );
     public $conditions;
     protected static $instance;
     public static $core_tabs;
@@ -61,6 +82,65 @@ class BeRocket_tab_manager_custom_post extends BeRocket_custom_post_class {
         parent::__construct();
         //Add to product
         add_action( 'add_meta_boxes_product', array($this, 'add_meta_box_product_page'), 1, 1 );
+        add_action( 'woocommerce_product_duplicate', array($this, 'duplicate_product_locations'), 10, 2 );
+    }
+
+    public function duplicate_product_locations( $duplicate, $product ) {
+        if ( ! $duplicate instanceof WC_Product || ! $product instanceof WC_Product ) {
+            return;
+        }
+        $duplicate_id = $duplicate->get_id();
+        $product_id = $product->get_id();
+        if ( ! $duplicate_id || ! $product_id || $duplicate_id === $product_id ) {
+            return;
+        }
+
+        // Locations belong to a product through post_parent, rather than product meta.
+        $locations = get_posts(array(
+            'post_type' => $this->post_name,
+            'post_status' => 'publish',
+            'post_parent' => $product_id,
+            'posts_per_page' => -1,
+            'orderby' => 'ID',
+            'order' => 'ASC',
+        ));
+        foreach ( $locations as $location ) {
+            $existing = get_posts(array(
+                'post_type' => $this->post_name,
+                'post_status' => 'publish',
+                'post_parent' => $duplicate_id,
+                'meta_key' => '_br_tabs_duplicate_source',
+                'meta_value' => $location->ID,
+                'fields' => 'ids',
+                'posts_per_page' => 1,
+            ));
+            if ( $existing ) {
+                continue;
+            }
+            $terms = wp_get_object_terms($location->ID, 'berocket_taxonomy_data', array('fields' => 'ids'));
+            if ( is_wp_error($terms) ) {
+                continue;
+            }
+            $meta = array('_br_tabs_duplicate_source' => $location->ID);
+            foreach ( array($this->post_name, 'berocket_post_order') as $key ) {
+                if ( metadata_exists('post', $location->ID, $key) ) {
+                    $meta[$key] = get_post_meta($location->ID, $key, true);
+                }
+            }
+            $location_id = wp_insert_post(wp_slash(array(
+                'post_type' => $this->post_name,
+                'post_status' => 'publish',
+                'post_parent' => $duplicate_id,
+                'post_title' => $location->post_title,
+                'post_content' => $location->post_content,
+                'post_excerpt' => $location->post_excerpt,
+                'menu_order' => $location->menu_order,
+                'meta_input' => $meta,
+            )), true);
+            if ( ! is_wp_error($location_id) ) {
+                wp_set_object_terms($location_id, $terms, 'berocket_taxonomy_data');
+            }
+        }
     }
 
     function init_translation() {
@@ -164,7 +244,7 @@ class BeRocket_tab_manager_custom_post extends BeRocket_custom_post_class {
             if( isset($post_data['sortable']) && is_array($post_data['sortable']) ) {
                 foreach($post_data['sortable'] as $tab_id => $position) {
                     $tab_key = (string) $tab_id;
-                    if( in_array($tab_key, $allowed_tabs, true) && is_scalar($position) ) {
+                    if( in_array($tab_key, $allowed_tabs, true) && is_scalar($position) && $position !== '' ) {
                         $sortable[$tab_key] = absint($position);
                     }
                 }
@@ -297,6 +377,9 @@ class BeRocket_tab_manager_custom_post extends BeRocket_custom_post_class {
             }
 
             foreach ( $new_tabs as $tab => &$tab_name ) {
+                if( in_array($tab, $default_tabs, true) && ! isset($tabs[$tab]) ) {
+                    continue;
+                }
                 if ( $tab == 'reviews' ) {
                     $tab_name['title'] = str_replace( '%d', $product->get_review_count(), $tab_name['title'] );
                 }

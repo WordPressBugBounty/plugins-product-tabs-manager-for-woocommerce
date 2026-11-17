@@ -1,0 +1,461 @@
+.br-product-tabs-classic {
+    --br-tabs-radius: .75rem;
+    --br-tabs-border: 1px solid #cbd5e1;
+    --br-tabs-nav-bg: #edf2f7;
+    --br-tabs-nav-padding: .5em .75em 0;
+    --br-tabs-hover-bg: #dfe9f4;
+    --br-tabs-link-radius: .45em .45em 0 0;
+    --br-tabs-active-bg: #fff;
+    --br-tabs-active-color: #154a88;
+    --br-tabs-link-shadow: inset 0 .2em #2364aa;
+    --br-tabs-panel-padding: clamp(1rem, 4vw, 2.5rem);
+    --br-tabs-faq-divider: #cbd5e1;
+}
+
+.br-product-tabs-contrast {
+    --br-tabs-columns: minmax(0, 31%) minmax(0, 1fr);
+    --br-tabs-panel-column: 2;
+    --br-tabs-radius: .75rem;
+    --br-tabs-border: 1px solid #ddded9;
+    --br-tabs-nav-flow: column;
+    --br-tabs-nav-padding: clamp(.75rem, 2.5vw, 1.5rem);
+    --br-tabs-nav-gap: .25em;
+    --br-tabs-nav-bg: #172434;
+    --br-tabs-nav-color: #eef3f8;
+    --br-tabs-hover-bg: #ffffff12;
+    --br-tabs-nav-radius: 0;
+    --br-tabs-link-radius: .4em;
+    --br-tabs-active-bg: #ffd38b;
+    --br-tabs-active-color: #172434;
+    --br-tabs-panel-bg: #fffbf3;
+    --br-tabs-panel-radius: 0;
+    --br-tabs-panel-padding: clamp(1rem, 4vw, 2.5rem);
+    --br-tabs-faq-bg: #f7ecda;
+    --br-tabs-faq-divider: #ebdbc1;
+    --br-tabs-faq-padding: 1rem;
+    --br-tabs-faq-radius: .65rem;
+}
+
+/* Keep template geometry and decoration authoritative over theme/builder styles.
+ * The content-area branch takes precedence over Divi's ID-scoped rules.
+ * Panel display and accordion answer height remain controlled by their scripts. */
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_tabs.et_pb_wc_tabs) {
+    display: grid !important;
+    grid-template-columns: var(--br-tabs-columns, minmax(0, 1fr)) !important;
+    column-gap: var(--br-tabs-column-gap, 0) !important;
+    row-gap: var(--br-tabs-row-gap, 0) !important;
+    box-sizing: border-box !important;
+    padding: var(--br-tabs-padding, 0) !important;
+    border: var(--br-tabs-border, 0) !important;
+    border-radius: var(--br-tabs-radius) !important;
+    background: var(--br-tabs-surface, #fff) !important;
+    color: #243044 !important;
+    box-shadow: var(--br-tabs-shadow, none) !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    position: relative !important;
+    inset: auto !important;
+    float: none !important;
+    margin-inline: 0 !important;
+    overflow: visible !important;
+}
+
+:is(.br-product-tabs-contrast, .woocommerce.br-product-tabs-contrast #content-area) :is(.woocommerce-tabs, .et_pb_tabs.et_pb_wc_tabs) {
+    overflow: clip !important;
+}
+
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_tabs.et_pb_wc_tabs)::before,
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_tabs.et_pb_wc_tabs)::after {
+    content: none !important;
+}
+
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_tabs.et_pb_wc_tabs) > * {
+    grid-column: 1 / -1 !important;
+    min-width: 0 !important;
+}
+
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_tabs.et_pb_wc_tabs) > :is(ul.tabs, ul.wc-tabs, .et_pb_tabs_controls, span.wc-tabs) {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    display: flex !important;
+    flex-flow: var(--br-tabs-nav-flow, row) wrap !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    gap: var(--br-tabs-nav-gap, 0) !important;
+    width: var(--br-tabs-nav-width, auto) !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: var(--br-tabs-nav-padding, 0) !important;
+    border: 0 !important;
+    border-radius: var(--br-tabs-nav-radius, var(--br-tabs-radius) var(--br-tabs-radius) 0 0) !important;
+    background: var(--br-tabs-nav-bg, transparent) !important;
+    overflow: visible !important;
+    list-style: none !important;
+    text-align: start !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    position: relative !important;
+    inset: auto !important;
+    float: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_tabs.et_pb_wc_tabs) > :is(ul.tabs, ul.wc-tabs, .et_pb_tabs_controls, span.wc-tabs) > :is(li, span) {
+    display: block !important;
+    flex: 0 1 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    inset: auto !important;
+    float: none !important;
+    border-radius: 0 !important;
+    list-style: none !important;
+    transform: none !important;
+}
+
+/* Themes often decorate both the list item and its link. */
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_tabs.et_pb_wc_tabs) > :is(ul.tabs, ul.wc-tabs, .et_pb_tabs_controls, span.wc-tabs)::before,
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_tabs.et_pb_wc_tabs) > :is(ul.tabs, ul.wc-tabs, .et_pb_tabs_controls, span.wc-tabs)::after,
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_tabs.et_pb_wc_tabs) > :is(ul.tabs, ul.wc-tabs, .et_pb_tabs_controls) > li::before,
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_tabs.et_pb_wc_tabs) > :is(ul.tabs, ul.wc-tabs, .et_pb_tabs_controls) > li::after,
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_tabs.et_pb_wc_tabs) > :is(ul.tabs, ul.wc-tabs, .et_pb_tabs_controls) > li > a::before,
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_tabs.et_pb_wc_tabs) > :is(ul.tabs, ul.wc-tabs, .et_pb_tabs_controls) > li > a::after {
+    content: none !important;
+    display: none !important;
+}
+
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_tabs.et_pb_wc_tabs) > :is(ul.tabs, ul.wc-tabs, .et_pb_tabs_controls, span.wc-tabs) > :is(li, span) > :is(a, span) {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: .6em !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: .8em 1em !important;
+    border: 0 !important;
+    border-radius: var(--br-tabs-link-radius) !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    position: relative !important;
+    inset: auto !important;
+    float: none !important;
+    transform: none !important;
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-style: normal !important;
+    color: var(--br-tabs-nav-color, #334155) !important;
+    font-weight: 600 !important;
+    line-height: 1.35 !important;
+    overflow-wrap: anywhere !important;
+    text-decoration: none !important;
+    text-align: start !important;
+    text-indent: 0 !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    white-space: normal !important;
+    transition: background-color .18s ease !important;
+}
+
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_tabs.et_pb_wc_tabs) > :is(ul.tabs, ul.wc-tabs, .et_pb_tabs_controls) > :is(.active, .et_pb_tab_active) {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_tabs.et_pb_wc_tabs) > :is(ul.tabs, ul.wc-tabs, .et_pb_tabs_controls, span.wc-tabs) > :is(.active, .et_pb_tab_active) > :is(a, span) {
+    background: var(--br-tabs-active-bg) !important;
+    color: var(--br-tabs-active-color) !important;
+    box-shadow: var(--br-tabs-link-shadow, none) !important;
+}
+
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_tabs.et_pb_wc_tabs) > :is(ul.tabs, ul.wc-tabs, .et_pb_tabs_controls) a:hover {
+    text-decoration: none !important;
+}
+
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_tabs.et_pb_wc_tabs) > :is(ul.tabs, ul.wc-tabs, .et_pb_tabs_controls) a:focus-visible {
+    outline: 2px solid currentColor !important;
+    outline-offset: -4px !important;
+}
+
+@media (hover: hover) {
+    :is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_tabs.et_pb_wc_tabs) > :is(ul.tabs, ul.wc-tabs, .et_pb_tabs_controls) > li:not(.active):not(.et_pb_tab_active) > a:hover {
+        background-color: var(--br-tabs-hover-bg, #3341550a) !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_tabs.et_pb_wc_tabs) > :is(ul.tabs, ul.wc-tabs, .et_pb_tabs_controls) > li > a {
+        transition: none !important;
+    }
+}
+
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_tabs.et_pb_wc_tabs) > :is(.woocommerce-Tabs-panel, .wc-tab, .panel, .et_pb_all_tabs) {
+    grid-column: var(--br-tabs-panel-column, 1) !important;
+    float: none !important;
+    width: auto !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: var(--br-tabs-panel-padding, .25em 0) !important;
+    border: 0 !important;
+    border-radius: var(--br-tabs-panel-radius, 0 0 var(--br-tabs-radius) var(--br-tabs-radius)) !important;
+    background: var(--br-tabs-panel-bg, transparent) !important;
+    color: inherit !important;
+    overflow-wrap: anywhere !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    position: relative !important;
+    inset: auto !important;
+    box-shadow: none !important;
+    transform: none !important;
+    text-align: start !important;
+}
+
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) .et_pb_wc_tabs > .et_pb_all_tabs > .et_pb_tab {
+    padding: 0 !important;
+}
+
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_wc_tabs) .br_qa_tabs.ui-accordion {
+    margin: 1.25em 0 0 !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding: 0 !important;
+    border: 0 !important;
+    box-sizing: border-box !important;
+    border-radius: var(--br-tabs-faq-radius, 2px) !important;
+    overflow: hidden !important;
+}
+
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_wc_tabs) .br_qa_tabs.ui-accordion > :is(h3, div) {
+    background: var(--br-tabs-faq-bg, transparent) !important;
+    border: 0 !important;
+    border-block-start: 1px solid var(--br-tabs-faq-divider, #e6eaf0) !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 !important;
+    float: none !important;
+    box-sizing: border-box !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    text-align: start !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+}
+
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_wc_tabs) .br_qa_tabs.ui-accordion > h3 {
+    padding: 15px 2em 15px 0 !important;
+    padding-inline: var(--br-tabs-faq-padding, 0px) calc(2em + var(--br-tabs-faq-padding, 0px)) !important;
+    height: auto !important;
+    position: relative !important;
+    inset: auto !important;
+    line-height: 1.5 !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    border: 0 !important;
+    border-block-start: 1px solid var(--br-tabs-faq-divider, #e6eaf0) !important;
+}
+
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_wc_tabs) .br_qa_tabs.ui-accordion > h3:focus-visible {
+    outline: 2px solid currentColor !important;
+    outline-offset: -2px !important;
+}
+
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_wc_tabs) .br_qa_tabs.ui-accordion > h3::after {
+    content: none !important;
+    display: none !important;
+}
+
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_wc_tabs) .br_qa_tabs.ui-accordion > h3::before {
+    content: '+' !important;
+    display: grid !important;
+    place-items: center !important;
+    width: 1em !important;
+    height: 1em !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    box-sizing: content-box !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: absolute !important;
+    inset: 50% auto auto auto !important;
+    inset-inline-end: calc(.3em + var(--br-tabs-faq-padding, 0px)) !important;
+    border: 1px solid !important;
+    border-radius: var(--br-tabs-faq-icon-radius, .25em) !important;
+    font-size: 1em !important;
+    font-family: inherit !important;
+    font-weight: 400 !important;
+    line-height: 1 !important;
+    background: transparent !important;
+    color: inherit !important;
+    box-shadow: none !important;
+    transform: translateY(-50%) !important;
+}
+
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_wc_tabs) .br_qa_tabs.ui-accordion > h3.ui-state-active::before {
+    content: '−' !important;
+}
+
+:is(.br-product-tabs-template, .woocommerce.br-product-tabs-template #content-area) :is(.woocommerce-tabs, .et_pb_wc_tabs) .br_qa_tabs.ui-accordion > div {
+    padding: 0 var(--br-tabs-faq-padding, 0px) 1em !important;
+    border: 0 !important;
+}
+
+@media (max-width: 680px) {
+    body.br-product-tabs-contrast,
+    .berocket-product-details.br-product-tabs-contrast {
+        --br-tabs-columns: minmax(0, 1fr);
+        --br-tabs-panel-column: 1;
+        --br-tabs-nav-flow: row;
+    }
+}
+
+.br-tabs-template-picker legend {
+    font-size: 1.25em;
+    font-weight: 600;
+}
+
+.br-tabs-template-default {
+    display: block;
+    margin-block: 1em;
+}
+
+.br-tabs-template-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+    gap: 1em;
+    margin-block-end: 1em;
+}
+
+.br-tabs-template-option {
+    display: block;
+    min-width: 0;
+    padding: .85em;
+    border: 1px solid #c3c4c7;
+    border-radius: .6em;
+    background: #fff;
+    font-weight: 600;
+}
+
+.br-tabs-template-option:has(input:checked) {
+    border-color: #2271b1;
+    box-shadow: 0 0 0 1px #2271b1;
+}
+
+.br-tabs-template-picker .br-tabs-template-upsell {
+    display: inline-block;
+    box-sizing: border-box;
+    max-width: 100%;
+    padding: .65em 1em;
+    border: 1px solid #d8cff0;
+    border-radius: .5em;
+    background: #f5f2fc;
+    color: #593698;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.br-tabs-template-picker .br-tabs-template-upsell:hover {
+    background: #ece5f8;
+    color: #452578;
+    text-decoration: none;
+}
+
+.br-tabs-template-picker .br-tabs-template-upsell:focus-visible {
+    outline: 2px solid #593698;
+    outline-offset: 2px;
+}
+
+.br-tabs-template-preview {
+    --br-tabs-padding: .65rem;
+    --br-tabs-column-gap: .75rem;
+    --br-tabs-panel-padding: .75rem;
+    --br-tabs-radius: .65rem;
+    --br-tabs-row-gap: .45rem;
+    --br-tabs-nav-padding: .25rem;
+    --br-tabs-nav-gap: .2rem;
+    --br-tabs-shadow: 0 .25rem .65rem #1e293b26;
+    display: block;
+    margin-block-start: .85em;
+    font-size: .8em;
+}
+
+.br-tabs-template-preview.br-product-tabs-contrast {
+    --br-tabs-columns: minmax(0, 35%) minmax(0, 1fr);
+    --br-tabs-padding: 0;
+    --br-tabs-column-gap: 0;
+}
+
+.br-tabs-template-preview.br-product-tabs-classic {
+    --br-tabs-padding: 0;
+    --br-tabs-row-gap: 0;
+    --br-tabs-nav-padding: .25rem .25rem 0;
+}
+
+.br-tabs-preview-lines,
+.br-tabs-preview-question {
+    display: block;
+    margin: .3em 0 .7em;
+}
+
+.br-tabs-preview-lines {
+    height: 2.65em;
+    background: linear-gradient(#e4ebf5 0 0) 0 0 / 90% .4em no-repeat,
+                linear-gradient(#e4ebf5 0 0) 0 .8em / 100% .4em no-repeat,
+                linear-gradient(#e4ebf5 0 0) 0 1.6em / 60% .4em no-repeat;
+}
+
+.br-tabs-preview-question {
+    position: relative;
+    height: 1.5em;
+    border-block-start: 1px solid var(--br-tabs-faq-divider, #e6eaf0);
+    background: linear-gradient(#dbe2e8 0 0) 0 .7em / 60% .4em no-repeat;
+}
+
+.br-tabs-preview-question::after {
+    content: '+';
+    position: absolute;
+    inset-block-start: .35em;
+    inset-inline-end: 0;
+    width: 1em;
+    border: 1px solid;
+    border-radius: var(--br-tabs-faq-icon-radius, .25em);
+    line-height: 1;
+    text-align: center;
+}

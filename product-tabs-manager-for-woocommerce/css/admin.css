@@ -324,3 +324,15 @@
     min-height: 30px;
     line-height: 30px;
 }
+.br_framework_settings.br_tab_manager_settings .button.br-tab-insert-table {
+    margin: 0;
+}
+.br_framework_settings.br_tab_manager_settings .br-tab-table-style-option th {
+    vertical-align: middle;
+}
+.br_tab_manager_settings .br-tab-table-status:empty {
+    display: none;
+}
+.br_tab_manager_settings .br-tab-table-status:not(:empty) {
+    flex-basis: 100%;
+}

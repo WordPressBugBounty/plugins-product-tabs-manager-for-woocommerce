@@ -3,6 +3,7 @@ define( "BeRocket_tab_manager_domain", 'product-tabs-manager-for-woocommerce' );
 define( "tab_manager_TEMPLATE_PATH", plugin_dir_path( __FILE__ ) . "templates/" );
 load_plugin_textdomain('product-tabs-manager-for-woocommerce', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
 require_once( plugin_dir_path( __FILE__ ) . 'berocket/framework.php' );
+require_once __DIR__ . '/includes/blocks/product-details/bootstrap.php';
 foreach ( glob( __DIR__ . "/includes/*.php") as $filename ) {
     include_once( $filename );
 }
@@ -16,6 +17,14 @@ include_once(plugin_dir_path( __FILE__ ) . "includes/admin/funnels.php");
 
 class BeRocket_tab_manager extends BeRocket_Framework {
     public static $settings_name = 'br-tab_manager-options';
+    public $import_export = array(
+        'sortable' => array('export_type' => 'remove'),
+        'sortable_name' => array('export_type' => 'remove'),
+        'use_cat_tabs' => array('export_type' => 'remove'),
+        'sortable_*' => array('export_type' => 'remove'),
+        'sortable_name_*' => array('export_type' => 'remove'),
+    );
+    public $import_export_posts = array('br_product_tab', 'br_tabs_location');
     protected static $instance;
     public $info, $defaults, $values;
     protected $disable_settings_for_admin = array(
@@ -44,6 +53,7 @@ class BeRocket_tab_manager extends BeRocket_Framework {
 
         $this->defaults = array(
             'custom_css'        => '',
+            'tabs_template'     => 'theme',
             'script'            => array(
                 'js_page_load'      => '',
             ),
@@ -77,6 +87,8 @@ class BeRocket_tab_manager extends BeRocket_Framework {
         parent::__construct( $this );
         if( $this->init_validation() ) {
             add_action('wp_enqueue_scripts', array( $this, 'enqueue_scripts' ));
+            add_filter('body_class', array($this, 'tabs_template_body_classes'));
+            add_action('admin_enqueue_scripts', array($this, 'enqueue_template_preview'));
             add_filter ( 'BeRocket_updater_menu_order_custom_post', array( $this, 'menu_order_custom_post' ) );
             add_action('berocket_tabs_cron_func', array($this, 'cron_func'));
         }
@@ -100,7 +112,46 @@ class BeRocket_tab_manager extends BeRocket_Framework {
                 $this->info[ 'version' ]
             );
             wp_enqueue_style( 'berocket_tab_manager_frontend_style' );
+            if ( $this->get_tabs_template_class() ) {
+                $this->enqueue_tabs_template_styles();
+            }
             add_action('wp_footer', array($this, 'page_load_script'));
+        }
+    }
+
+    private static function tabs_templates() {
+        return apply_filters('berocket_tab_manager_tabs_templates', array(
+            'theme'     => __('Theme default', 'product-tabs-manager-for-woocommerce'),
+            'classic'   => __('Connected tabs', 'product-tabs-manager-for-woocommerce'),
+            'contrast'  => __('Contrast split', 'product-tabs-manager-for-woocommerce'),
+        ));
+    }
+
+    private static function sanitize_tabs_template($template) {
+        return is_string($template) && isset(self::tabs_templates()[$template]) ? $template : 'theme';
+    }
+
+    public function get_tabs_template_class() {
+        $options = $this->get_option();
+        $template = self::sanitize_tabs_template($options['tabs_template'] ?? 'theme');
+        return 'theme' === $template ? '' : 'br-product-tabs-template br-product-tabs-' . $template;
+    }
+
+    public function tabs_template_body_classes($classes) {
+        if ( is_product() && ($template_class = $this->get_tabs_template_class()) ) {
+            $classes = array_merge($classes, explode(' ', $template_class));
+        }
+        return $classes;
+    }
+
+    public function enqueue_tabs_template_styles() {
+        wp_enqueue_style('berocket_product_tabs_templates', plugins_url('css/tabs-templates.css', __FILE__), array(), BeRocket_tab_manager_version);
+        do_action('berocket_tab_manager_enqueue_tabs_template_styles');
+    }
+
+    public function enqueue_template_preview() {
+        if ( $this->is_settings_page(false) ) {
+            $this->enqueue_tabs_template_styles();
         }
     }
 
@@ -325,6 +376,9 @@ class BeRocket_tab_manager extends BeRocket_Framework {
             ),
             array(
                 'General'  => array(
+                    'tabs_template' => array(
+                        'section' => 'tabs_template',
+                    ),
                     'explanation' => array(
                         "section"  => "explanation",
                     ),
@@ -349,6 +403,9 @@ class BeRocket_tab_manager extends BeRocket_Framework {
     }
     public function save_settings_callback($settings) {
         $settings = parent::save_settings_callback($settings);
+        if ( is_array($settings) ) {
+            $settings['tabs_template'] = self::sanitize_tabs_template($settings['tabs_template'] ?? 'theme');
+        }
         if( isset($settings['styles']) && is_array($settings['styles']) ) {
             foreach(array('border_color', 'question_color', 'q_opened_color') as $color_key) {
                 $color = isset($settings['styles'][$color_key]) && is_scalar($settings['styles'][$color_key])
@@ -364,6 +421,14 @@ class BeRocket_tab_manager extends BeRocket_Framework {
         }
         return $settings;
     }
+    public function section_tabs_template($data, $options) {
+        $templates = self::tabs_templates();
+        $selected_template = self::sanitize_tabs_template($options['tabs_template'] ?? 'theme');
+        ob_start();
+        include tab_manager_TEMPLATE_PATH . 'tabs-template-picker.php';
+        return ob_get_clean();
+    }
+
     function section_explanation() {
         $html ='<td colspan="2">';
         $html .= '<ol>';

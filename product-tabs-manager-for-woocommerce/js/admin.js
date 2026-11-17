@@ -2,6 +2,48 @@ var br_saved_timeout;
 var br_savin_ajax = false;
 (function ($){
     $(document).ready( function () {
+        $(document).on('click', '.br-tab-insert-table', function () {
+            var template;
+            try {
+                template = JSON.parse(this.getAttribute('data-table-template') || '""');
+            } catch (error) {
+                return;
+            }
+            var textarea = document.getElementById('content');
+            if (!template || !textarea) {
+                return;
+            }
+            var editor = window.tinymce && window.tinymce.get('content');
+            if (editor && editor.initialized && !editor.isHidden()) {
+                editor.focus();
+                editor.undoManager.transact(function () {
+                    // TinyMCE normalizes a body-end caret into the last table cell.
+                    // Append nodes at the editor root instead, keeping existing nodes intact.
+                    var container = editor.getDoc().createElement('div');
+                    container.innerHTML = template;
+                    var body = editor.getBody();
+                    while (container.firstChild) {
+                        body.appendChild(container.firstChild);
+                    }
+                    var paragraph = editor.getDoc().createElement('p');
+                    paragraph.innerHTML = '<br data-mce-bogus="1">';
+                    body.appendChild(paragraph);
+                    editor.selection.setCursorLocation(paragraph, 0);
+                    editor.nodeChanged();
+                });
+                editor.save();
+                editor.fire('change');
+            } else {
+                textarea.value += '\n\n' + template + '\n\n';
+                $(textarea).trigger('input').trigger('change');
+                textarea.focus();
+                textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+                textarea.scrollTop = textarea.scrollHeight;
+            }
+            var settings = $(this).closest('.br_tab_manager_settings');
+            settings.find('[name="br_product_tab[table_style]"]').prop('checked', true).trigger('change');
+            settings.find('.br-tab-table-status').text(this.getAttribute('data-success-message'));
+        });
         $('.colorpicker_field_tabs').each(function (i,o){
             $(o).css('backgroundColor', '#'+$(o).data('color'));
             $(o).colpick({

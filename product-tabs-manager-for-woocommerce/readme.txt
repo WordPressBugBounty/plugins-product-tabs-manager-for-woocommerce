@@ -4,8 +4,8 @@ Contributors: berocket, dholovnia
 Donate link: https://berocket.com/woocommerce-product-tabs-manager/?utm_source=wordpress_org&utm_medium=donate&utm_campaign=tab_manager
 Tags: tabs, product tab manager, product tabs, woocommerce tabs, unique tabs
 Requires at least: 5.0
-Tested up to: 7.1
-Stable tag: 3.0.10
+Tested up to: 7.1.4
+Stable tag: 3.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +96,25 @@ You can try this plugin's admin side [here](https://berocket.com/woocommerce-pro
 —
 
 == Changelog ==
+
+= 3.2 =
+* Feature - Added responsive product tab block templates with previews: Connected tabs and Contrast split in Free, plus Gradient sidebar and Segmented card in Pro.
+* Enhancement - Improved template styling against theme and builder overrides, added subtle hover effects, and refined FAQ spacing and rounded corners.
+* Fix - Preserve built-in tabs, ordering, and custom titles when exporting and importing tab locations.
+* Enhancement - Updated BeRocket Framework to 3.1.5 with improved handling of optional product links and settings import/export.
+
+= 3.1 =
+* Feature - Added optional striped and horizontally scrollable tables in custom product tabs.
+* Feature - Added one-click sample table insertion in the tab editor.
+* Feature - Added a Gutenberg Product Details block for product descriptions, specifications, reviews and custom tabs.
+* Fix - Improved saving of default WooCommerce tabs.
+* Fix - Preserve product-specific tab locations, including video tabs, when duplicating a product.
+* Fix - Render Elementor-built custom tab content and styles without replacing the enclosing product content.
+* Fix - Restore the original product context after product-list tabs so following tabs display the correct content.
+* Enhancement - Added or improved settings import/export and backup restoration.
+* Enhancement - Updated BeRocket Framework to 3.1.3 with CDN release metadata, reduced updater API traffic, isolated invalid catalog records, improved banner tracking, and an SVG account icon.
+* Enhancement - Updated compatibility declarations for WordPress 7.1.3 and WooCommerce 11.2.1.
+
 = 3.0.10 =
 * Enhancement - Updated compatibility declarations: WordPress 7.1 and WooCommerce 11.0.1.
 * Enhancement - Updated framework.

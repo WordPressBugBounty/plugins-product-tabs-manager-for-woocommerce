@@ -1,0 +1,85 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "berocket/product-details",
+    "version": "3.1",
+    "title": "BeRocket Product Details",
+    "category": "woocommerce",
+    "icon": "index-card",
+    "description": "Display the product description, specifications, reviews, and custom tabs managed by BeRocket Product Tab Manager.",
+    "keywords": [ "WooCommerce", "product", "tabs", "details" ],
+    "textdomain": "product-tabs-manager-for-woocommerce",
+    "attributes": {
+        "align": {
+            "type": "string",
+            "default": "wide"
+        },
+        "displayStyle": {
+            "type": "string",
+            "default": "tabs"
+        },
+        "hideTabTitle": {
+            "type": "boolean",
+            "default": false
+        },
+        "autoclose": {
+            "type": "boolean",
+            "default": false
+        },
+        "showIcon": {
+            "type": "boolean",
+            "default": true
+        },
+        "iconPosition": {
+            "type": "string",
+            "default": "right"
+        },
+        "headingLevel": {
+            "type": "number",
+            "default": 3
+        }
+    },
+    "supports": {
+        "align": [ "wide", "full" ],
+        "color": {
+            "background": true,
+            "gradients": true
+        },
+        "__experimentalBorder": {
+            "color": true,
+            "radius": true,
+            "style": true,
+            "width": true
+        },
+        "spacing": {
+            "padding": true,
+            "margin": [ "top", "bottom" ]
+        },
+        "typography": {
+            "fontSize": true,
+            "lineHeight": true
+        },
+        "shadow": true,
+        "html": false,
+        "multiple": false
+    },
+    "usesContext": [ "postId", "postType" ],
+    "editorScript": "file:./assets/editor.js",
+    "editorStyle": [
+        "wc-blocks-editor-style",
+        "wc-blocks-style-product-details",
+        "wp-block-accordion-editor",
+        "wp-block-accordion-item-editor",
+        "wp-block-accordion-heading-editor",
+        "wp-block-accordion-panel-editor"
+    ],
+    "style": [
+        "wc-blocks-style",
+        "wc-blocks-style-product-details",
+        "wp-block-accordion",
+        "wp-block-accordion-item",
+        "wp-block-accordion-heading",
+        "wp-block-accordion-panel"
+    ],
+    "render": "file:./render.php"
+}

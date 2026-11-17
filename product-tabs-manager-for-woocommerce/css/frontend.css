@@ -66,3 +66,45 @@
     margin: 0;
     padding: 15px 20px;
 }
+
+/* Opt-in preset: never target WooCommerce's built-in or other plugins' tables. */
+.br-tab-table-style,
+.br-tab-table-style .br-tab-table-scroll {
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+}
+.br-tab-table-style .br-tab-table-scroll {
+    margin-bottom: 1.5em;
+}
+.br-tab-table-style .br-tab-table-scroll:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: -2px;
+}
+.br-tab-table-style[data-scroll-label] table {
+    width: 100%;
+    margin: 0;
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    border-spacing: 0;
+    background: #fff;
+    color: #333;
+}
+.br-tab-table-style[data-scroll-label] table th,
+.br-tab-table-style[data-scroll-label] table td {
+    padding: .75em 1em;
+    border: 1px solid #ddd;
+    vertical-align: top;
+    text-align: start;
+}
+.br-tab-table-style[data-scroll-label] table th {
+    background: #eee;
+    color: #222;
+    font-weight: 600;
+}
+.br-tab-table-style[data-scroll-label] table td {
+    background: #fff;
+}
+.br-tab-table-style[data-scroll-label] table tbody tr:nth-child(even) td {
+    background: #f7f7f7;
+}
